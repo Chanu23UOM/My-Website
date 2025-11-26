@@ -366,4 +366,35 @@ window.addEventListener('DOMContentLoaded', () => {
     if (document.querySelector('.star-animation-container')) {
         createStarsAndShootingStars();
     }
+    
+    // Initialize events countdown preview if on homepage
+    if (document.getElementById('preview-days')) {
+        updateEventsCountdown();
+        setInterval(updateEventsCountdown, 1000);
+    }
 });
+
+// Events section countdown preview
+function updateEventsCountdown() {
+    const targetDate = new Date('2025-11-26T17:00:00-08:00');
+    const now = new Date();
+    const difference = targetDate - now;
+    
+    if (difference <= 0) {
+        document.getElementById('preview-days').textContent = '0';
+        document.getElementById('preview-hours').textContent = '0';
+        document.getElementById('preview-mins').textContent = '0';
+        document.getElementById('preview-secs').textContent = '0';
+        return;
+    }
+    
+    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+    
+    document.getElementById('preview-days').textContent = days.toString();
+    document.getElementById('preview-hours').textContent = hours.toString();
+    document.getElementById('preview-mins').textContent = minutes.toString();
+    document.getElementById('preview-secs').textContent = seconds.toString();
+}
